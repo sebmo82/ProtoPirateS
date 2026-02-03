@@ -454,7 +454,7 @@ void* subghz_protocol_decoder_vag_alloc(SubGhzEnvironment* environment) {
     instance->btn = 0;
     instance->check_byte = 0;
 
-    protocol_vag_load_keys(APP_ASSETS_PATH("vw"));
+    protocol_vag_load_keys(APP_ASSETS_PATH("vag"));
 
     return instance;
 }
@@ -975,7 +975,8 @@ void subghz_protocol_decoder_vag_get_string(void* context, FuriString* output) {
         break;
     }
 
-    instance->generic.protocol_name = vehicle_name;
+    //instance->generic.protocol_name = vehicle_name;
+    // Do not rename protocol ?
 
     if(instance->decrypted) {
         furi_string_cat_printf(

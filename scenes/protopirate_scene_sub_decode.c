@@ -18,7 +18,7 @@
 #define SAMPLES_TO_READ_PER_TICK 400
 #define SUCCESS_DISPLAY_TICKS    18
 #define FAILURE_DISPLAY_TICKS    18
-#define KIA_HISTORY_MAX          50
+#define PROTOPIRATE_HISTORY_MAX  50
 
 // Decode state machine
 typedef enum {
@@ -508,7 +508,8 @@ bool protopirate_scene_sub_decode_on_event(void* context, SceneManagerEvent even
                     FuriString* history_stat_str = furi_string_alloc();
 
                     protopirate_get_frequency_modulation(app, frequency_str, modulation_str);
-                    furi_string_printf(history_stat_str, "%u/%u", history_count, KIA_HISTORY_MAX);
+                    furi_string_printf(
+                        history_stat_str, "%u/%u", history_count, PROTOPIRATE_HISTORY_MAX);
 
                     bool is_external =
                         app->txrx->radio_device ?
@@ -975,7 +976,8 @@ bool protopirate_scene_sub_decode_on_event(void* context, SceneManagerEvent even
                 FuriString* history_stat_str = furi_string_alloc();
 
                 protopirate_get_frequency_modulation(app, frequency_str, modulation_str);
-                furi_string_printf(history_stat_str, "%u/%u", history_count, KIA_HISTORY_MAX);
+                furi_string_printf(
+                    history_stat_str, "%u/%u", history_count, PROTOPIRATE_HISTORY_MAX);
 
                 bool is_external = app->txrx->radio_device ?
                                        radio_device_loader_is_external(app->txrx->radio_device) :
