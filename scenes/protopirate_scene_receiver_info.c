@@ -11,7 +11,7 @@ static void protopirate_scene_receiver_info_widget_callback(
     InputType type,
     void* context) {
     ProtoPirateApp* app = context;
-    if(type == InputTypeShort) {
+    if(type == InputTypeShort || type == InputTypeLong) {
         if(result == GuiButtonTypeRight) {
             view_dispatcher_send_custom_event(
                 app->view_dispatcher, ProtoPirateCustomEventReceiverInfoSave);

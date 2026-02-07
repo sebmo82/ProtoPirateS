@@ -230,7 +230,7 @@ static void protopirate_decode_draw_callback(Canvas* canvas, void* context) {
     // Title with occasional glitch
     canvas_set_font(canvas, FontPrimary);
     int glitch = (frame % 47 == 0) ? 1 : 0;
-    canvas_draw_str_aligned(canvas, 64 + glitch, 0, AlignCenter, AlignTop, "DECODING");
+    canvas_draw_str_aligned(canvas, 64 + glitch, 0, AlignCenter, AlignTop, "Decoding");
 
     // Waveform visualization - original style with sinf
     int wave_y = 22;
@@ -396,7 +396,7 @@ static void protopirate_scene_sub_decode_widget_callback(
     void* context) {
     ProtoPirateApp* app = context;
 
-    if(type == InputTypeShort) {
+    if(type == InputTypeShort || type == InputTypeLong) {
         if(result == GuiButtonTypeRight) {
             // Save button in signal info view
             view_dispatcher_send_custom_event(
@@ -441,6 +441,8 @@ void protopirate_scene_sub_decode_on_enter(void* context) {
     g_decode_ctx->match_count = 0;
     g_decode_ctx->selected_history_index = 0;
     g_decode_ctx->raw_reader = NULL;
+
+    protopirate_view_receiver_set_sub_decode_mode(app->protopirate_receiver, true);
 
     FURI_LOG_I(TAG, "After context setup - Free heap: %zu", memmgr_get_free_heap());
 
