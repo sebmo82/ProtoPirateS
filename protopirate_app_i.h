@@ -23,28 +23,9 @@
 #include <lib/subghz/devices/devices.h>
 #include <lib/subghz/subghz_file_encoder_worker.h>
 #include <dialogs/dialogs.h>
+#include "defines.h"
 
 #define PROTOPIRATE_KEYSTORE_DIR_NAME APP_ASSETS_PATH("encrypted")
-
-#define ENABLE_EMULATE_FEATURE
-
-#define REMOVE_LOGS
-
-#ifdef REMOVE_LOGS
-// Undefine existing macros
-#undef FURI_LOG_E
-#undef FURI_LOG_W
-#undef FURI_LOG_I
-#undef FURI_LOG_D
-#undef FURI_LOG_T
-// Define empty macros
-#define FURI_LOG_E(tag, format, ...)
-#define FURI_LOG_W(tag, format, ...)
-#define FURI_LOG_I(tag, format, ...)
-#define FURI_LOG_D(tag, format, ...)
-#define FURI_LOG_T(tag, format, ...)
-
-#endif // REMOVE_LOGS
 
 typedef struct ProtoPirateApp ProtoPirateApp;
 
@@ -82,7 +63,6 @@ struct ProtoPirateApp {
     FuriString* loaded_file_path;
     bool auto_save;
     bool radio_initialized;
-    bool decoder_initialized;
     ProtoPirateSettings settings;
     uint32_t start_tx_time;
     uint8_t tx_power;
@@ -117,8 +97,9 @@ void protopirate_hopper_update(ProtoPirateApp* app);
 void protopirate_tx(ProtoPirateApp* app, uint32_t frequency);
 void protopirate_tx_stop(ProtoPirateApp* app);
 bool protopirate_radio_init(ProtoPirateApp* app);
-bool protopirate_decoder_init(ProtoPirateApp* app);
 void protopirate_radio_deinit(ProtoPirateApp* app);
+
+void protopirate_app_free(ProtoPirateApp* app);
 
 static const NotificationSequence sequence_tx = {
     &message_note_c5,

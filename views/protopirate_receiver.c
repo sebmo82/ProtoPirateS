@@ -67,7 +67,7 @@ static void protopirate_view_rssi_draw(Canvas* canvas, ProtoPirateReceiverModel*
 void protopirate_view_receiver_set_sub_decode_mode(
     ProtoPirateReceiver* receiver,
     bool sub_decode_mode) {
-    furi_assert(receiver);
+    furi_check(receiver);
     with_view_model(
         receiver->view,
         ProtoPirateReceiverModel * model,
@@ -76,13 +76,13 @@ void protopirate_view_receiver_set_sub_decode_mode(
 }
 
 void protopirate_view_receiver_set_rssi(ProtoPirateReceiver* receiver, float rssi) {
-    furi_assert(receiver);
+    furi_check(receiver);
     with_view_model(
         receiver->view, ProtoPirateReceiverModel * model, { model->rssi = rssi; }, true);
 }
 
 void protopirate_view_receiver_set_lock(ProtoPirateReceiver* receiver, ProtoPirateLock lock) {
-    furi_assert(receiver);
+    furi_check(receiver);
     with_view_model(
         receiver->view, ProtoPirateReceiverModel * model, { model->lock = lock; }, true);
 }
@@ -91,13 +91,13 @@ void protopirate_view_receiver_set_callback(
     ProtoPirateReceiver* receiver,
     ProtoPirateReceiverCallback callback,
     void* context) {
-    furi_assert(receiver);
+    furi_check(receiver);
     receiver->callback = callback;
     receiver->context = context;
 }
 
 static void protopirate_view_receiver_update_offset(ProtoPirateReceiver* receiver) {
-    furi_assert(receiver);
+    furi_check(receiver);
     with_view_model(
         receiver->view,
         ProtoPirateReceiverModel * model,
@@ -128,7 +128,7 @@ void protopirate_view_receiver_add_item_to_menu(
     ProtoPirateReceiver* receiver,
     const char* name,
     uint8_t type) {
-    furi_assert(receiver);
+    furi_check(receiver);
     with_view_model(
         receiver->view,
         ProtoPirateReceiverModel * model,
@@ -148,7 +148,7 @@ void protopirate_view_receiver_add_data_statusbar(
     const char* preset_str,
     const char* history_stat_str,
     bool external_radio) {
-    furi_assert(receiver);
+    furi_check(receiver);
     with_view_model(
         receiver->view,
         ProtoPirateReceiverModel * model,
@@ -387,7 +387,7 @@ void protopirate_view_receiver_draw(Canvas* canvas, ProtoPirateReceiverModel* mo
 }
 
 bool protopirate_view_receiver_input(InputEvent* event, void* context) {
-    furi_assert(context);
+    furi_check(context);
     ProtoPirateReceiver* receiver = context;
 
     bool consumed = false;
@@ -502,12 +502,12 @@ bool protopirate_view_receiver_input(InputEvent* event, void* context) {
 }
 
 void protopirate_view_receiver_enter(void* context) {
-    furi_assert(context);
+    furi_check(context);
     UNUSED(context);
 }
 
 void protopirate_view_receiver_exit(void* context) {
-    furi_assert(context);
+    furi_check(context);
     UNUSED(context);
 }
 
@@ -545,7 +545,7 @@ ProtoPirateReceiver* protopirate_view_receiver_alloc(bool auto_save) {
 }
 
 void protopirate_view_receiver_free(ProtoPirateReceiver* receiver) {
-    furi_assert(receiver);
+    furi_check(receiver);
 
     with_view_model(
         receiver->view,
@@ -569,7 +569,7 @@ void protopirate_view_receiver_free(ProtoPirateReceiver* receiver) {
 }
 
 void protopirate_view_receiver_reset_menu(ProtoPirateReceiver* receiver) {
-    furi_assert(receiver);
+    furi_check(receiver);
     with_view_model(
         receiver->view,
         ProtoPirateReceiverModel * model,
@@ -588,12 +588,12 @@ void protopirate_view_receiver_reset_menu(ProtoPirateReceiver* receiver) {
 }
 
 View* protopirate_view_receiver_get_view(ProtoPirateReceiver* receiver) {
-    furi_assert(receiver);
+    furi_check(receiver);
     return receiver->view;
 }
 
 uint16_t protopirate_view_receiver_get_idx_menu(ProtoPirateReceiver* receiver) {
-    furi_assert(receiver);
+    furi_check(receiver);
     uint16_t idx = 0;
     with_view_model(
         receiver->view, ProtoPirateReceiverModel * model, { idx = model->history_item; }, false);
@@ -601,7 +601,7 @@ uint16_t protopirate_view_receiver_get_idx_menu(ProtoPirateReceiver* receiver) {
 }
 
 void protopirate_view_receiver_set_idx_menu(ProtoPirateReceiver* receiver, uint16_t idx) {
-    furi_assert(receiver);
+    furi_check(receiver);
     with_view_model(
         receiver->view,
         ProtoPirateReceiverModel * model,

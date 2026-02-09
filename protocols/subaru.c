@@ -187,7 +187,7 @@ void* subghz_protocol_encoder_subaru_alloc(SubGhzEnvironment* environment) {
 }
 
 void subghz_protocol_encoder_subaru_free(void* context) {
-    furi_assert(context);
+    furi_check(context);
     SubGhzProtocolEncoderSubaru* instance = context;
     if(instance->encoder.upload) {
         free(instance->encoder.upload);
@@ -196,7 +196,7 @@ void subghz_protocol_encoder_subaru_free(void* context) {
 }
 
 static void subghz_protocol_encoder_subaru_get_upload(SubGhzProtocolEncoderSubaru* instance) {
-    furi_assert(instance);
+    furi_check(instance);
     size_t index = 0;
 
     uint32_t te_short = subghz_protocol_subaru_const.te_short;
@@ -256,7 +256,7 @@ static void subghz_protocol_encoder_subaru_get_upload(SubGhzProtocolEncoderSubar
 
 SubGhzProtocolStatus
     subghz_protocol_encoder_subaru_deserialize(void* context, FlipperFormat* flipper_format) {
-    furi_assert(context);
+    furi_check(context);
     SubGhzProtocolEncoderSubaru* instance = context;
     SubGhzProtocolStatus ret = SubGhzProtocolStatusError;
 
@@ -371,13 +371,13 @@ SubGhzProtocolStatus
 }
 
 void subghz_protocol_encoder_subaru_stop(void* context) {
-    furi_assert(context);
+    furi_check(context);
     SubGhzProtocolEncoderSubaru* instance = context;
     instance->encoder.is_running = false;
 }
 
 LevelDuration subghz_protocol_encoder_subaru_yield(void* context) {
-    furi_assert(context);
+    furi_check(context);
     SubGhzProtocolEncoderSubaru* instance = context;
 
     if(!instance->encoder.is_running || instance->encoder.repeat == 0) {
@@ -408,13 +408,13 @@ void* subghz_protocol_decoder_subaru_alloc(SubGhzEnvironment* environment) {
 }
 
 void subghz_protocol_decoder_subaru_free(void* context) {
-    furi_assert(context);
+    furi_check(context);
     SubGhzProtocolDecoderSubaru* instance = context;
     free(instance);
 }
 
 void subghz_protocol_decoder_subaru_reset(void* context) {
-    furi_assert(context);
+    furi_check(context);
     SubGhzProtocolDecoderSubaru* instance = context;
     instance->decoder.parser_step = SubaruDecoderStepReset;
     instance->decoder.te_last = 0;
@@ -424,7 +424,7 @@ void subghz_protocol_decoder_subaru_reset(void* context) {
 }
 
 void subghz_protocol_decoder_subaru_feed(void* context, bool level, uint32_t duration) {
-    furi_assert(context);
+    furi_check(context);
     SubGhzProtocolDecoderSubaru* instance = context;
 
     uint32_t te_short = subghz_protocol_subaru_const.te_short;
@@ -549,7 +549,7 @@ void subghz_protocol_decoder_subaru_feed(void* context, bool level, uint32_t dur
 }
 
 uint8_t subghz_protocol_decoder_subaru_get_hash_data(void* context) {
-    furi_assert(context);
+    furi_check(context);
     SubGhzProtocolDecoderSubaru* instance = context;
     return subghz_protocol_blocks_get_hash_data(
         &instance->decoder, (instance->decoder.decode_count_bit / 8) + 1);
@@ -559,7 +559,7 @@ SubGhzProtocolStatus subghz_protocol_decoder_subaru_serialize(
     void* context,
     FlipperFormat* flipper_format,
     SubGhzRadioPreset* preset) {
-    furi_assert(context);
+    furi_check(context);
     SubGhzProtocolDecoderSubaru* instance = context;
 
     SubGhzProtocolStatus ret = SubGhzProtocolStatusError;
@@ -604,14 +604,14 @@ SubGhzProtocolStatus subghz_protocol_decoder_subaru_serialize(
 
 SubGhzProtocolStatus
     subghz_protocol_decoder_subaru_deserialize(void* context, FlipperFormat* flipper_format) {
-    furi_assert(context);
+    furi_check(context);
     SubGhzProtocolDecoderSubaru* instance = context;
     return subghz_block_generic_deserialize_check_count_bit(
         &instance->generic, flipper_format, subghz_protocol_subaru_const.min_count_bit_for_found);
 }
 
 void subghz_protocol_decoder_subaru_get_string(void* context, FuriString* output) {
-    furi_assert(context);
+    furi_check(context);
     SubGhzProtocolDecoderSubaru* instance = context;
 
     uint32_t key_hi = (uint32_t)(instance->key >> 32);

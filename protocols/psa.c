@@ -89,6 +89,7 @@ struct SubGhzProtocolDecoderPSA {
     uint8_t decrypted_type;
 };
 
+#ifdef ENABLE_EMULATE_FEATURE
 struct SubGhzProtocolEncoderPSA {
     SubGhzProtocolEncoderBase base;
     SubGhzProtocolBlockEncoder encoder;
@@ -107,7 +108,7 @@ struct SubGhzProtocolEncoderPSA {
     uint16_t crc;
     bool is_running;
 };
-
+#endif
 const SubGhzProtocolDecoder subghz_protocol_psa_decoder = {
     .alloc = subghz_protocol_decoder_psa_alloc,
     .free = subghz_protocol_decoder_psa_free,
@@ -118,7 +119,7 @@ const SubGhzProtocolDecoder subghz_protocol_psa_decoder = {
     .deserialize = subghz_protocol_decoder_psa_deserialize,
     .get_string = subghz_protocol_decoder_psa_get_string,
 };
-
+#ifdef ENABLE_EMULATE_FEATURE
 const SubGhzProtocolEncoder subghz_protocol_psa_encoder = {
     .alloc = subghz_protocol_encoder_psa_alloc,
     .free = subghz_protocol_encoder_psa_free,
@@ -126,7 +127,15 @@ const SubGhzProtocolEncoder subghz_protocol_psa_encoder = {
     .stop = subghz_protocol_encoder_psa_stop,
     .yield = subghz_protocol_encoder_psa_yield,
 };
-
+#else
+const SubGhzProtocolEncoder subghz_protocol_psa_encoder = {
+    .alloc = NULL,
+    .free = NULL,
+    .deserialize = NULL,
+    .stop = NULL,
+    .yield = NULL,
+};
+#endif
 const SubGhzProtocol psa_protocol = {
     .name = PSA_PROTOCOL_NAME,
     .type = SubGhzProtocolTypeDynamic,
@@ -146,6 +155,7 @@ static uint8_t psa_calculate_tea_crc(uint32_t v0, uint32_t v1);
 static void psa_tea_encrypt(uint32_t* v0, uint32_t* v1, const uint32_t* key);
 static void psa_unpack_tea_result_to_buffer(uint8_t* buffer, uint32_t v0, uint32_t v1);
 
+#ifdef ENABLE_EMULATE_FEATURE
 static void psa_second_stage_xor_encrypt(uint8_t* buffer) {
     uint8_t E6 = buffer[8];
     uint8_t E7 = buffer[9];
@@ -401,7 +411,7 @@ static void psa_build_buffer_mode36(
 }
 
 static void psa_encoder_build_upload(SubGhzProtocolEncoderPSA* instance) {
-    furi_assert(instance);
+    furi_check(instance);
 
     FURI_LOG_I(TAG, "=== ENCODER BUILD UPLOAD ===");
     FURI_LOG_I(
@@ -544,7 +554,7 @@ void* subghz_protocol_encoder_psa_alloc(SubGhzEnvironment* environment) {
 }
 
 void subghz_protocol_encoder_psa_free(void* context) {
-    furi_assert(context);
+    furi_check(context);
     SubGhzProtocolEncoderPSA* instance = context;
 
     if(instance->encoder.upload) {
@@ -555,7 +565,7 @@ void subghz_protocol_encoder_psa_free(void* context) {
 
 SubGhzProtocolStatus
     subghz_protocol_encoder_psa_deserialize(void* context, FlipperFormat* flipper_format) {
-    furi_assert(context);
+    furi_check(context);
     SubGhzProtocolEncoderPSA* instance = context;
 
     FURI_LOG_I(TAG, "=== ENCODER DESERIALIZE ===");
@@ -722,14 +732,14 @@ SubGhzProtocolStatus
 }
 
 void subghz_protocol_encoder_psa_stop(void* context) {
-    furi_assert(context);
+    furi_check(context);
     SubGhzProtocolEncoderPSA* instance = context;
     instance->is_running = false;
     instance->encoder.is_running = false;
 }
 
 LevelDuration subghz_protocol_encoder_psa_yield(void* context) {
-    furi_assert(context);
+    furi_check(context);
     SubGhzProtocolEncoderPSA* instance = context;
 
     if(!instance->is_running || instance->encoder.size_upload == 0) {
@@ -750,7 +760,7 @@ LevelDuration subghz_protocol_encoder_psa_yield(void* context) {
 
     return ret;
 }
-
+#endif
 static uint32_t psa_abs_diff(uint32_t a, uint32_t b) {
     if(a < b) {
         return b - a;
@@ -1107,13 +1117,13 @@ void* subghz_protocol_decoder_psa_alloc(SubGhzEnvironment* environment) {
 }
 
 void subghz_protocol_decoder_psa_free(void* context) {
-    furi_assert(context);
+    furi_check(context);
     SubGhzProtocolDecoderPSA* instance = context;
     free(instance);
 }
 
 void subghz_protocol_decoder_psa_reset(void* context) {
-    furi_assert(context);
+    furi_check(context);
     SubGhzProtocolDecoderPSA* instance = context;
     instance->state = 0;
     instance->status_flag = 0;
@@ -1136,7 +1146,7 @@ void subghz_protocol_decoder_psa_reset(void* context) {
 }
 
 void subghz_protocol_decoder_psa_feed(void* context, bool level, uint32_t duration) {
-    furi_assert(context);
+    furi_check(context);
     SubGhzProtocolDecoderPSA* instance = context;
 
     uint32_t tolerance;
@@ -1689,7 +1699,7 @@ void subghz_protocol_decoder_psa_feed(void* context, bool level, uint32_t durati
 }
 
 uint8_t subghz_protocol_decoder_psa_get_hash_data(void* context) {
-    furi_assert(context);
+    furi_check(context);
     SubGhzProtocolDecoderPSA* instance = context;
     uint64_t combined_data = ((uint64_t)instance->key1_high << 32) | instance->key1_low;
     SubGhzBlockDecoder decoder = {.decode_data = combined_data, .decode_count_bit = 64};
@@ -1700,7 +1710,7 @@ SubGhzProtocolStatus subghz_protocol_decoder_psa_serialize(
     void* context,
     FlipperFormat* flipper_format,
     SubGhzRadioPreset* preset) {
-    furi_assert(context);
+    furi_check(context);
     SubGhzProtocolDecoderPSA* instance = context;
 
     SubGhzProtocolStatus ret = SubGhzProtocolStatusError;
@@ -1756,7 +1766,7 @@ SubGhzProtocolStatus subghz_protocol_decoder_psa_serialize(
 
 SubGhzProtocolStatus
     subghz_protocol_decoder_psa_deserialize(void* context, FlipperFormat* flipper_format) {
-    furi_assert(context);
+    furi_check(context);
     SubGhzProtocolDecoderPSA* instance = context;
 
     SubGhzProtocolStatus ret = SubGhzProtocolStatusError;
@@ -1827,7 +1837,7 @@ SubGhzProtocolStatus
 }
 
 void subghz_protocol_decoder_psa_get_string(void* context, FuriString* output) {
-    furi_assert(context);
+    furi_check(context);
     SubGhzProtocolDecoderPSA* instance = context;
 
     if(instance->status_flag == 0x80 && (instance->key1_low != 0 || instance->key1_high != 0) &&
