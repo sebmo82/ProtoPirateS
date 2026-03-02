@@ -1,0 +1,23 @@
+name: "Build ProtoPirate Full Edition"
+on: [push, workflow_dispatch]
+
+jobs:
+  build-fap:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Build with ufbt
+        uses: flipperdevices/flipperzero-ufbt-action@v0.1.2
+        id: build-app
+        with:
+          sdk-channel: release # Version stable pour Momentum 12
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ProtoPirate-Full-Build
+          path: ${{ steps.build-app.outputs.fap-artifacts }}
