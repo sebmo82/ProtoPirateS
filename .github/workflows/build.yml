@@ -14,10 +14,12 @@ jobs:
         uses: flipperdevices/flipperzero-ufbt-action@v0.1.2
         id: build-app
         with:
-          sdk-channel: release # Version stable pour Momentum 12
+          sdk-channel: release
+          # On force le nettoyage pour éviter les "multiple definition"
+          ufbt-args: "--clean" 
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ProtoPirate-Full-Build
+          name: ProtoPirate-fap
           path: ${{ steps.build-app.outputs.fap-artifacts }}
