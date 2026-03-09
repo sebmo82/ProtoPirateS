@@ -15,11 +15,13 @@ jobs:
         id: build-app
         with:
           sdk-channel: release
-          # On force le nettoyage pour éviter les "multiple definition"
-          ufbt-args: "--clean" 
+          # On nettoie et on compile
+          ufbt-args: "--clean"
 
       - name: Upload Artifact
+        if: success() # Ne s'exécute que si la compilation a réussi
         uses: actions/upload-artifact@v4
         with:
           name: ProtoPirate-fap
-          path: ${{ steps.build-app.outputs.fap-artifacts }}
+          # On pointe directement vers le dossier de sortie par défaut de ufbt
+          path: ./*.fap
