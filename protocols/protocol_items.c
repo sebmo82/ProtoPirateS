@@ -1,10 +1,6 @@
 #include "protocol_items.h"
-#include "protocoles/toyota_2008.h"
+#include "toyota_2008.h" // <-- Plus de "protocoles/", juste le nom du fichier
 #include <string.h>
-
-/* * NOTE: Les "extern const SubGhzProtocol" ont été supprimés d'ici 
- * car ils sont déjà inclus via "protocol_items.h" et "toyota_2008.h".
- */
 
 const SubGhzProtocol* protopirate_protocol_registry_items[] = {
     &subghz_protocol_toyota_2008,
@@ -30,118 +26,27 @@ const SubGhzProtocolRegistry protopirate_protocol_registry = {
 };
 
 static const ProtoPirateProtocolTiming protocol_timings[] = {
-    {
-        .name = "Toyota 2008",
-        .te_short = 440,
-        .te_long = 1200,
-        .te_delta = 150,
-        .min_count_bit = 64,
-    },
-    {
-        .name = "Kia V0",
-        .te_short = 250,
-        .te_long = 500,
-        .te_delta = 100,
-        .min_count_bit = 61,
-    },
-    {
-        .name = "Kia V1",
-        .te_short = 800,
-        .te_long = 1600,
-        .te_delta = 200,
-        .min_count_bit = 56,
-    },
-    {
-        .name = "Kia V2",
-        .te_short = 500,
-        .te_long = 1000,
-        .te_delta = 150,
-        .min_count_bit = 51,
-    },
-    {
-        .name = "Kia V3/V4",
-        .te_short = 400,
-        .te_long = 800,
-        .te_delta = 150,
-        .min_count_bit = 64,
-    },
-    {
-        .name = "Kia V5",
-        .te_short = 400,
-        .te_long = 800,
-        .te_delta = 150,
-        .min_count_bit = 64,
-    },
-    {
-        .name = "Kia V6",
-        .te_short = 200,
-        .te_long = 400,
-        .te_delta = 100,
-        .min_count_bit = 144,
-    },
-    {
-        .name = "Ford V0",
-        .te_short = 250,
-        .te_long = 500,
-        .te_delta = 100,
-        .min_count_bit = 64,
-    },
-    {
-        .name = "Fiat V0",
-        .te_short = 200,
-        .te_long = 400,
-        .te_delta = 100,
-        .min_count_bit = 64,
-    },
-    {
-        .name = "Subaru",
-        .te_short = 800,
-        .te_long = 1600,
-        .te_delta = 200,
-        .min_count_bit = 64,
-    },
-    {
-        .name = "Suzuki",
-        .te_short = 250,
-        .te_long = 500,
-        .te_delta = 100,
-        .min_count_bit = 64,
-    },
-    {
-        .name = "VW",
-        .te_short = 500,
-        .te_long = 1000,
-        .te_delta = 120,
-        .min_count_bit = 80,
-    },
-    {
-        .name = "Scher-Khan",
-        .te_short = 750,
-        .te_long = 1100,
-        .te_delta = 180,
-        .min_count_bit = 35,
-    },
-    {
-        .name = "Star Line",
-        .te_short = 250,
-        .te_long = 500,
-        .te_delta = 120,
-        .min_count_bit = 64,
-    },
-    {
-        .name = "PSA",
-        .te_short = 250,
-        .te_long = 500,
-        .te_delta = 100,
-        .min_count_bit = 128,
-    },
+    {"Toyota 2008", 440, 1200, 150, 64},
+    {"Kia V0", 250, 500, 100, 61},
+    {"Kia V1", 800, 1600, 200, 56},
+    {"Kia V2", 500, 1000, 150, 51},
+    {"Kia V3/V4", 400, 800, 150, 64},
+    {"Kia V5", 400, 800, 150, 64},
+    {"Kia V6", 200, 400, 100, 144},
+    {"Ford V0", 250, 500, 100, 64},
+    {"Fiat V0", 200, 400, 100, 64},
+    {"Subaru", 800, 1600, 200, 64},
+    {"Suzuki", 250, 500, 100, 64},
+    {"VW", 500, 1000, 120, 80},
+    {"Scher-Khan", 750, 1100, 180, 35},
+    {"Star Line", 250, 500, 120, 64},
+    {"PSA", 250, 500, 100, 128},
 };
 
 static const size_t protocol_timings_count = COUNT_OF(protocol_timings);
 
 const ProtoPirateProtocolTiming* protopirate_get_protocol_timing(const char* protocol_name) {
     if(!protocol_name) return NULL;
-
     for(size_t i = 0; i < protocol_timings_count; i++) {
         if(strcmp(protocol_name, protocol_timings[i].name) == 0 ||
            strstr(protocol_name, protocol_timings[i].name) != NULL) {
