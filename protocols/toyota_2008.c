@@ -4,7 +4,7 @@
 #include <lib/subghz/blocks/decoder.h>
 #include <lib/subghz/blocks/encoder.h>
 
-// 1. Déclarations des fonctions de base
+// 1. Déclarations des fonctions
 void* subghz_protocol_decoder_toyota_2008_alloc(SubGhzEnvironment* environment) {
     UNUSED(environment);
     return malloc(sizeof(SubGhzProtocolDecoder));
@@ -24,12 +24,13 @@ void subghz_protocol_decoder_toyota_2008_feed(void* context, bool level, uint32_
     UNUSED(duration);
 }
 
-uint32_t subghz_protocol_decoder_toyota_2008_get_hash_data(void* context) {
+// CORRECTION : Le type de retour doit être uint8_t pour le hash sur Flipper
+uint8_t subghz_protocol_decoder_toyota_2008_get_hash_data(void* context) {
     UNUSED(context);
     return 0;
 }
 
-// 2. La structure du Décodeur (Placée APRÈS les fonctions)
+// 2. La structure du Décodeur
 const SubGhzProtocolDecoder subghz_protocol_toyota_2008_decoder = {
     .alloc = subghz_protocol_decoder_toyota_2008_alloc,
     .free = subghz_protocol_decoder_toyota_2008_free,
@@ -45,7 +46,8 @@ const SubGhzProtocolDecoder subghz_protocol_toyota_2008_decoder = {
 const SubGhzProtocol subghz_protocol_toyota_2008 = {
     .name = "Toyota 2008",
     .type = SubGhzProtocolTypeStatic,
-    .flag = SubGhzProtocolFlag_None,
+    // CORRECTION : SubGhzProtocolFlag_None n'existe pas, on utilise 0 ou SubGhzProtocolFlag_Send
+    .flag = SubGhzProtocolFlag_Send, 
     .decoder = &subghz_protocol_toyota_2008_decoder,
     .encoder = NULL,
 };
