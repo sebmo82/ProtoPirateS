@@ -7,5 +7,6 @@ App(
     stack_size=2 * 1024,
     fap_icon="images/protopirate_10px.png",
     fap_category="Sub-GHz",
-    sources=["*.c", "protocols/*.c"], # On cherche uniquement dans ces deux endroits
+    # On laisse ufbt gérer les sources automatiquement
+    # sources=["*.c", "protocols/*.c"], 
 )
