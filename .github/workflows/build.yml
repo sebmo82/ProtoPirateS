@@ -1,27 +1,10 @@
-name: "Build ProtoPirate Full Edition"
-on: [push, workflow_dispatch]
-
-jobs:
-  build-fap:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-
-      - name: Build with ufbt
+- name: Build with ufbt
         uses: flipperdevices/flipperzero-ufbt-action@v0.1.2
         id: build-app
         with:
           sdk-channel: release
-          # On nettoie et on compile
-          ufbt-args: "--clean"
+          # On force le clean AVANT de compiler
+          ufbt-args: "clean" 
 
-      - name: Upload Artifact
-        if: success() # Ne s'exécute que si la compilation a réussi
-        uses: actions/upload-artifact@v4
-        with:
-          name: ProtoPirate-fap
-          # On pointe directement vers le dossier de sortie par défaut de ufbt
-          path: ./*.fap
+      - name: Compile FAP
+        run: ufbt
