@@ -3,7 +3,11 @@
 #include <lib/subghz/protocols/base.h>
 #include <lib/subghz/blocks/generic.h>
 
-// Déclaration anticipée pour le compilateur
+/**
+ * Forward declaration pour le compilateur
+ * Evite l'erreur 'unknown type name SubGhzReceiver'
+ */
+struct SubGhzReceiver;
 typedef struct SubGhzReceiver SubGhzReceiver;
 
 extern const SubGhzProtocol subghz_protocol_toyota_2008;
