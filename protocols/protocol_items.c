@@ -1,31 +1,13 @@
 #include "protocol_items.h"
-#include "protocoles/toyota_2008.h" // Inclusion de ton nouveau header
+#include "protocoles/toyota_2008.h"
 #include <string.h>
 
-/* * Déclaration des protocoles externes 
- * Assure-toi que ces noms correspondent exactement aux "const SubGhzProtocol" 
- * définis dans chaque fichier .c respectif.
+/* * NOTE: Les "extern const SubGhzProtocol" ont été supprimés d'ici 
+ * car ils sont déjà inclus via "protocol_items.h" et "toyota_2008.h".
  */
-extern const SubGhzProtocol subghz_protocol_scher_khan;
-extern const SubGhzProtocol kia_protocol_v0;
-extern const SubGhzProtocol kia_protocol_v1;
-extern const SubGhzProtocol kia_protocol_v2;
-extern const SubGhzProtocol kia_protocol_v3_v4;
-extern const SubGhzProtocol kia_protocol_v5;
-extern const SubGhzProtocol kia_protocol_v6;
-extern const SubGhzProtocol ford_protocol_v0;
-extern const SubGhzProtocol fiat_protocol_v0;
-extern const SubGhzProtocol subaru_protocol;
-extern const SubGhzProtocol suzuki_protocol;
-extern const SubGhzProtocol vag_protocol;
-extern const SubGhzProtocol subghz_protocol_star_line;
-extern const SubGhzProtocol psa_protocol;
-
-// Ton nouveau protocole Toyota
-extern const SubGhzProtocol subghz_protocol_toyota_2008;
 
 const SubGhzProtocol* protopirate_protocol_registry_items[] = {
-    &subghz_protocol_toyota_2008, // Ajouté ici
+    &subghz_protocol_toyota_2008,
     &subghz_protocol_scher_khan,
     &kia_protocol_v0,
     &kia_protocol_v1,
@@ -47,7 +29,6 @@ const SubGhzProtocolRegistry protopirate_protocol_registry = {
     .size = COUNT_OF(protopirate_protocol_registry_items),
 };
 
-// --- TIMINGS ---
 static const ProtoPirateProtocolTiming protocol_timings[] = {
     {
         .name = "Toyota 2008",
@@ -142,4 +123,39 @@ static const ProtoPirateProtocolTiming protocol_timings[] = {
     },
     {
         .name = "Star Line",
-        .te_short =
+        .te_short = 250,
+        .te_long = 500,
+        .te_delta = 120,
+        .min_count_bit = 64,
+    },
+    {
+        .name = "PSA",
+        .te_short = 250,
+        .te_long = 500,
+        .te_delta = 100,
+        .min_count_bit = 128,
+    },
+};
+
+static const size_t protocol_timings_count = COUNT_OF(protocol_timings);
+
+const ProtoPirateProtocolTiming* protopirate_get_protocol_timing(const char* protocol_name) {
+    if(!protocol_name) return NULL;
+
+    for(size_t i = 0; i < protocol_timings_count; i++) {
+        if(strcmp(protocol_name, protocol_timings[i].name) == 0 ||
+           strstr(protocol_name, protocol_timings[i].name) != NULL) {
+            return &protocol_timings[i];
+        }
+    }
+    return NULL;
+}
+
+const ProtoPirateProtocolTiming* protopirate_get_protocol_timing_by_index(size_t index) {
+    if(index >= protocol_timings_count) return NULL;
+    return &protocol_timings[index];
+}
+
+size_t protopirate_get_protocol_timing_count(void) {
+    return protocol_timings_count;
+}
