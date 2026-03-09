@@ -12,4 +12,4 @@ extern const SubGhzProtocol subghz_protocol_toyota_2008;
 
 bool subghz_protocol_toyota_2008_decode(SubGhzBlockGeneric* instance, SubGhzReceiver* receiver);
 
-#endif // TOYOTA_2008_H
+#endif
