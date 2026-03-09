@@ -6,7 +6,14 @@ App(
     entry_point="protopirate_app",
     stack_size=2 * 1024,
     fap_category="Sub-GHz",
-    # --- LES LIGNES IMPORTANTES CI-DESSOUS ---
-    fap_icon="images/protopirate_10px.png", # L'icône du menu (10x10)
-    fap_icon_assets="images",              # Le dossier qui contient TOUTES tes icônes
+    fap_icon="images/protopirate_10px.png",
+    fap_icon_assets="images",
+    # Liste propre des dossiers pour éviter les scans en double
+    sources=[
+        "*.c",
+        "helpers/*.c",
+        "protocols/*.c",
+        "scenes/*.c",
+        "views/*.c"
+    ],
 )
