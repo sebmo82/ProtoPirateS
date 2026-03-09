@@ -1,6 +1,27 @@
 #include "protocol_items.h"
 #include <string.h>
+#include "protocol_items.h"
+#include "toyota_2008.h" // <--- 1. AJOUTER L'INCLUDE ICI
+#include <string.h>
 
+const SubGhzProtocol* protopirate_protocol_registry_items[] = {
+    &subghz_protocol_toyota_2008, // <--- 2. AJOUTER LE PROTOCOLE EN TÊTE DE LISTE
+    &subghz_protocol_scher_khan,
+    &kia_protocol_v0,
+    // ... reste de ta liste
+};
+
+static const ProtoPirateProtocolTiming protocol_timings[] = {
+    // 3. AJOUTER LES TIMINGS POUR L'AFFICHAGE
+    {
+        .name = "Toyota 2008",
+        .te_short = 440,
+        .te_long = 1200,
+        .te_delta = 150,
+        .min_count_bit = 64,
+    },
+    // ... reste de tes timings (Kia, Ford, etc.)
+};
 const SubGhzProtocol* protopirate_protocol_registry_items[] = {
     &subghz_protocol_scher_khan, // Heap: free 16320
     &kia_protocol_v0, // Heap: free 16976
