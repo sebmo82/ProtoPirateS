@@ -13,5 +13,7 @@ App(
     fap_weburl="https://protopirate.net/ProtoPirate/ProtoPirate",
     fap_version="2.3.1",
     fap_description="Decode car key fob signals from Sub-GHz",
-    sources=["*.c", "protocols/*.c"], # Uniquement le dossier correct
+    # On ne met PAS de récursivité ici, juste le point d'entrée
+    # scons s'occupera de trouver les dépendances
+    sources=["protopirate.c", "protocols/*.c"],
 )
