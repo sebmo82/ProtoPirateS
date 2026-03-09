@@ -5,8 +5,8 @@ App(
     targets=["f7"],
     entry_point="protopirate_app",
     stack_size=2 * 1024,
-    fap_icon="images/protopirate_10px.png",
     fap_category="Sub-GHz",
-    # On laisse ufbt gérer les sources automatiquement
-    # sources=["*.c", "protocols/*.c"], 
+    # --- LES LIGNES IMPORTANTES CI-DESSOUS ---
+    fap_icon="images/protopirate_10px.png", # L'icône du menu (10x10)
+    fap_icon_assets="images",              # Le dossier qui contient TOUTES tes icônes
 )
