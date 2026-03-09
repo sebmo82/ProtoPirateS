@@ -6,14 +6,6 @@ App(
     entry_point="protopirate_app",
     stack_size=2 * 1024,
     fap_icon="images/protopirate_10px.png",
-    fap_icon_assets="images",
-    fap_file_assets="keystore",
     fap_category="Sub-GHz",
-    fap_author="RocketGod-git",
-    fap_weburl="https://protopirate.net/ProtoPirate/ProtoPirate",
-    fap_version="2.3.1",
-    fap_description="Decode car key fob signals from Sub-GHz",
-    # Cette ligne est la clé : 
-    # Elle prend tout à la racine ET tout dans protocols
-    sources=["*.c", "protocols/*.c"], 
+    sources=["*.c", "protocols/*.c"], # On cherche uniquement dans ces deux endroits
 )
