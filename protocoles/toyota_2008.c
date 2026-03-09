@@ -1,30 +1,36 @@
 #include "toyota_2008.h"
-#include <lib/subghz/protocols/base.h>
-#include <lib/subghz/blocks/generic.h>
+#include <lib/subghz/receiver.h>
+#include <furi.h>
 
-// Inclusion indispensable pour manipuler les flux et les timings
-#include <lib/subghz/receiver.h> 
+// Structure du protocole compatible ProtoPirate
+const SubGhzProtocol subghz_protocol_toyota_2008 = {
+    .name = "Toyota 2008",
+    .type = SubGhzProtocolTypeStatic,
+    .flag = SubGhzProtocolFlag_433 | SubGhzProtocolFlag_AM | SubGhzProtocolFlag_Decodable,
+};
 
 /**
- * Correction de l'erreur 'unknown type name SubGhzStream'
- * On utilise l'en-tête correct du SDK Flipper
+ * Décodeur Toyota 2008 (PWM)
+ * Signature conforme au SDK 1.4.3 (ufbt)
  */
-
 bool subghz_protocol_toyota_2008_decode(SubGhzBlockGeneric* instance, SubGhzReceiver* receiver) {
-    // Note : Dans les versions récentes, on récupère souvent les données 
-    // via le décodeur de niveau (Level Decoder).
-    
-    uint8_t bit_count = 0;
-    uint64_t data_high = 0;
-    uint16_t data_low = 0;
+    furi_assert(instance);
+    furi_assert(receiver);
 
-    // Logique de décodage simplifiée pour la compilation
-    // uFBT a besoin de voir les types définis dans subghz_receiver.h
-    
-    if(instance->cnt == 0) {
-        // Ton code de traitement ici
-        return false; 
+    // On récupère les timings du dernier bit reçu
+    size_t duration = subghz_receiver_get_last_bit_duration(receiver);
+    bool level = subghz_receiver_get_last_bit_level(receiver);
+
+    // Logique de capture Toyota (PWM : impulsion haute variable)
+    if(level) {
+        if(duration > 300 && duration < 600) {
+            // Bit 0 détecté (~440us)
+            return true; 
+        } else if(duration > 1100 && duration < 1600) {
+            // Bit 1 détecté (~1200us)
+            return true;
+        }
     }
 
-    return true;
+    return false;
 }
