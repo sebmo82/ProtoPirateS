@@ -8,5 +8,14 @@ App(
     fap_category="Sub-GHz",
     fap_icon="images/protopirate_10px.png",
     fap_icon_assets="images",
-    sources=["*.c", "helpers/*.c", "protocols/*.c", "scenes/*.c", "views/*.c"],
+    # Correction ici : on liste les fichiers racines séparément des dossiers
+    sources=[
+        "protopirate_app.c",
+        "protopirate_app_i.c",
+        "protopirate_history.c",
+        "helpers/*.c",
+        "protocols/*.c",
+        "scenes/*.c",
+        "views/*.c",
+    ],
 )
