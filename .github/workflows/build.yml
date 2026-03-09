@@ -11,15 +11,13 @@ jobs:
           submodules: recursive
 
       - name: Install ufbt
-        run: |
-          python3 -m pip install --upgrade pip
-          pip install ufbt
+        run: pip install ufbt
 
-      - name: Clean and Build
-        id: build-app
+      - name: Full Clean and Rebuild
         run: |
-          ufbt clean
-          ufbt
+          ufbt clean          # Nettoie le SDK
+          ufbt -c             # Nettoie spécifiquement les fichiers de ton APP
+          ufbt                # Recompile tout de zéro
         
       - name: Upload Artifact
         if: success()
