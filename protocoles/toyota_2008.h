@@ -1,12 +1,10 @@
 #pragma once
 
 #include <lib/subghz/protocols/base.h>
+#include <lib/subghz/blocks/generic.h>
 
-#define TOYOTA_2008_TE 440 // Durée de base en microsecondes
-#define TOYOTA_2008_BIT_COUNT 80 // Nombre de bits total observé
+// Déclaration globale du protocole pour protocol_items.c
+extern const SubGhzProtocol subghz_protocol_toyota_2008;
 
-typedef struct {
-    uint32_t serial;    // ID fixe de la clé
-    uint32_t rolling;   // Code tournant (chiffré)
-    uint8_t btn;        // Code du bouton
-} Toyota2008Data;
+// Prototypes requis par le SDK
+bool subghz_protocol_toyota_2008_decode(SubGhzBlockGeneric* instance, SubGhzReceiver* receiver);
