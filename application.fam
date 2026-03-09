@@ -8,12 +8,5 @@ App(
     fap_category="Sub-GHz",
     fap_icon="images/protopirate_10px.png",
     fap_icon_assets="images",
-    # Liste propre des dossiers pour éviter les scans en double
-    sources=[
-        "*.c",
-        "helpers/*.c",
-        "protocols/*.c",
-        "scenes/*.c",
-        "views/*.c"
-    ],
+    sources=["*.c", "helpers/*.c", "protocols/*.c", "scenes/*.c", "views/*.c"],
 )
