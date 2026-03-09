@@ -13,5 +13,5 @@ App(
     fap_weburl="https://protopirate.net/ProtoPirate/ProtoPirate",
     fap_version="2.3.1",
     fap_description="Decode car key fob signals from Sub-GHz",
-    sources=["*.c", "protocoles/*.c"], # <--- AJOUT CRUCIAL
+    sources=["*.c", "protocoles/*.c"], # Compilation récursive
 )
